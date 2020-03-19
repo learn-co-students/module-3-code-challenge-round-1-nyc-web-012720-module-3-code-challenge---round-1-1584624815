@@ -27,8 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
     data.comments.forEach(element => {
       let newCommentNode = document.createElement("LI")
       newCommentNode.innerText = element.content
+      let btn = document.createElement("BUTTON")
+      btn.innerHTML = "Delete"
+      btn.dataset.commentid = element.id
+      btn.addEventListener("click", deletecomment)
+      newCommentNode.appendChild(btn)
       commentsNode.appendChild(newCommentNode)
-  
     });
   });
 
@@ -45,8 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *client
       body: JSON.stringify({image_id: imageId}) // body data type must match "Content-Type" header
     })
     .then((response) => {
@@ -63,6 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let userText = event.target.elements[0].value
     newCommentNode.innerText = userText
     event.target.elements[0].value =""
+    let btn = document.createElement("BUTTON")
+    btn.innerHTML = "Delete"
+    btn.addEventListener("click", deletecomment)
+    newCommentNode.appendChild(btn)
     commentsNode.appendChild(newCommentNode)
 
     fetch(commentsURL, {
@@ -71,8 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      redirect: 'follow', // manual, *follow, error
-      referrerPolicy: 'no-referrer', // no-referrer, *client
       body: JSON.stringify({
         image_id: imageId,
         content: userText
@@ -82,8 +86,25 @@ document.addEventListener('DOMContentLoaded', () => {
       return response.json();
     })
     .then((data) => {
-      console.dir(data);
+      btn.dataset.commentid = data.id
     });
   })
+
+  function deletecomment(event) {
+    fetch(`https://randopic.herokuapp.com/comments/${event.target.dataset.commentid}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      event.target.parentNode.remove()
+      console.dir(data);
+    });
+  }
 
 })
