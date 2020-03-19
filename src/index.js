@@ -10,11 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const commentsURL = `https://randopic.herokuapp.com/comments/`
 
   fetchImage()
+  updateLikes()
 
 })
 
 function fetchImage() {
-  fetch(imageURL)
+  fetch("https://randopic.herokuapp.com/images/4874")
   .then(response => response.json())
   .then(json => renderImage(json))
 }
@@ -26,7 +27,7 @@ function renderImage(image) {
     <img src="${image.url}" id="image" data-id="${image.id}"/>
     <h4 id="name">${image.name}</h4>
     <span>Likes:
-      <span id="likes">${like_count}</span>
+      <span id="likes">${image.like_count}</span>
     </span>
     <button id="like_button">Like</button>
     <form id="comment_form">
@@ -34,7 +35,21 @@ function renderImage(image) {
       <input type="submit" value="Submit"/>
     </form>
     <ul id="comments">
-        <!-- <li> for each comment goes here -->
     </ul>
   `
+
+  image.comments.forEach(comment => {
+    const ul = document.getElementById("comments")
+    const li = document.createElement("li")
+    li.innerText = `${comment.content}`
+    ul.appendChild(li)
+  });
+}
+
+function updateLikes() {
+  const likeButton = document.getElementById("like_button")
+  likeButton.addEventListener("click", function (event) {
+    const span = document.getElementById("likes")
+    console.log("Jeff")
+  })
 }
