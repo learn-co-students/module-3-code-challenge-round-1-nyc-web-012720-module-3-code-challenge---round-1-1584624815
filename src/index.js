@@ -7,10 +7,12 @@ step 2.
   1.[√]Add like to picture
   2.[√]As 'click' event, increase the number of likes
   step 3.
-  1.[√]Send 'Patch'  to backend by fecthing to backend.
+  1.[√]Send 'Post'  to backend by fecthing to backend.
   step 4.
   1.[√]Add comment optimistically
   2.[√]Clear out input text that typed in.
+  step 5.
+  1.[]Send  comment to Backend by fetching. Use POST method
 */
 let fetchImage;
 let imageData;
@@ -47,6 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
 
     displayComments(event.target);
+    updateComments(event.target, commentsURL);
   });
 });
 
@@ -98,3 +101,15 @@ function displayComments(submit) {
   //Clear out input value after list it.
   submit[0].value = "";
 }
+
+const updateComments = function (submit, commentsURL) {
+
+  fetch(commentsURL, {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({})
+  });
+};
