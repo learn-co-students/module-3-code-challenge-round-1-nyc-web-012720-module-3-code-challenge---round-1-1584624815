@@ -12,7 +12,7 @@ step 2.
   1.[√]Add comment optimistically
   2.[√]Clear out input text that typed in.
   step 5.
-  1.[]Send  comment to Backend by fetching. Use POST method
+  1.[√]Send  comment to Backend by fetching. Use POST method
 */
 let fetchImage;
 let imageData;
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     displayComments(event.target);
     updateComments(event.target, commentsURL);
+    event.target[0].value = '';
   });
 });
 
@@ -59,11 +60,19 @@ function renderImage(image) {
   let img = document.getElementById("image");
   let h4 = document.getElementById("name");
   let span = document.querySelector("#likes");
+  let ul = document.getElementById("comments");
 
   img.src = image.url;
   h4.innerText = image.name;
+  span.innerText = image.like_count;
 
-  span.innerText = imageData.like_count;
+  if (image.comments.length > 0) {
+    image.comments.forEach(function (comment) {
+      ul.innerHTML += `
+      <li>${comment.content}</li>
+      `;
+    });
+  }
 }
 
 function addLikes(btn) {
@@ -99,7 +108,7 @@ function displayComments(submit) {
   `;
 
   //Clear out input value after list it.
-  submit[0].value = "";
+
 }
 
 const updateComments = function (submit, commentsURL) {
@@ -110,6 +119,13 @@ const updateComments = function (submit, commentsURL) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({})
-  });
+    body: JSON.stringify({ "image_id": imageData.id, "content": submit[0].value })
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+    });
+
 };
