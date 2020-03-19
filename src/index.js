@@ -34,6 +34,8 @@ const renderImage = image => {
   const nameTag = imageCard.querySelector('#name')
   nameTag.innerText = image.name
 
+  const likeTag = imageCard.querySelector('span').querySelector('span')
+
   console.log(image)
   console.log(imageCard)
 }
