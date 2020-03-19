@@ -89,9 +89,8 @@ function newComment() {
           },
           body: JSON.stringify({ 
             image_id: "",
-           content:   })
+           content: ""  })
         })
-        .then( //logic to append to dom)
-
+        // .then( //logic to append to dom))
       })
-}
+    }
