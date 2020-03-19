@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  getImage() //this is defining the function to use to make my code easier to read for the team/readers
+  image() //this is defining the function to use to make my code easier to read for the team/readers
 }) 
 
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
@@ -11,14 +11,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const likeURL = `https://randopic.herokuapp.com/likes/`
 
   const commentsURL = `https://randopic.herokuapp.com/comments/`
- 
+
+  const image_card = document.getElementById('image_card')
+  console.log(image_card)
+
+ //get the image data. this is done by using fetch imageURL from the website given
+//render image to the website
 
   
-const getImage = () => {
-  fetch(imageURL, {method: 'Get'})
+const image = () => {
+  fetch(imageURL, {method: 'GET'})
   .then(response => response.json())
   .then(images => {
     renderImages(images)
+    // image.message.forEach(function (imageURL) {
+     image_card.innerHTML += `<img src=${imageURL}>`
   })
   }
 
@@ -27,8 +34,7 @@ const getImage = () => {
   }
 
 
-//get the image data. this is done by using fetch imageURL from the website given
-//render image to the website
+
 
 
 
