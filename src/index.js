@@ -1,9 +1,11 @@
+let imageId = 4861
+
+const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
 
-  let imageId = "4861"
-
-  const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
+ 
 
   const likeURL = `https://randopic.herokuapp.com/likes/`
 
@@ -15,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function getImage() {
-  fetch(`https://randopic.herokuapp.com/images/4861`)
+  fetch(`${imageURL}`)
   .then( response => response.json())
   .then( object => {
     renderImage(object)
@@ -36,8 +38,8 @@ function renderImage(object) {
           <input type="submit" value="Submit"/>
         </form>
       <ul id="comments">
-        <li> ${object.comments} </li>
+        <li> ${object.comments.forEach( x => { x.content})} </li>
       </ul>
   `
-
 }
+
