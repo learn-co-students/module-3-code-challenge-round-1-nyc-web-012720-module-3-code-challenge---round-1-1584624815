@@ -35,7 +35,7 @@ const renderImage = image => {
   const commentTag = imageCard.querySelector('ul')
   commentTag.innerHTML = renderComments(image.comments)
   // console.log(image)
-  console.log(imageCard)
+  // console.log(imageCard)
 }
 
 const renderComments = comments => {
@@ -45,21 +45,41 @@ const renderComments = comments => {
 }
 
 const renderComment = comment => {
-  console.log("here for the comment")
-  console.log(comment)
+  // console.log("here for the comment")
+  // console.log(comment)
 }
 
 const likeBtn = imageCard.querySelector("#like_button")
 const likeImage = () => {
-  // add an event listener for the click on the like button
-  // grab the number of likes, parseInt and increment the likes
+  // √ add an event listener for the click on the like button
+  // √ grab the number of likes, √ parseInt and √ increment the likes
   // render it to show on the DOM without refreshing and stays when refreshed
   likeBtn.addEventListener('click', event =>{
-    if event.target
-    increaseLikes(event.target)
+    if (event.target.id === "like_button"){
+      increaseLikes(event.target)
+    }
   })
 }
 
 const increaseLikes = button => {
-  console.log(button)
+  const imgId = button.parentNode.querySelector('img').dataset.id
+  const likes = button.parentNode.querySelector('#likes').innerHTML
+  let num = parseInt(likes)
+  num ++
+  button.parentNode.querySelector('#likes').innerHTML = num
+  console.log(imgId)
+  // updateLikes(imgId)
 }
+
+// const updateLikes = likes => {
+//   fetch(likeURL, {
+//     mehtod: "POST",
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({
+//       image_id: (insert image id here)
+//     })
+//   })
+// }
