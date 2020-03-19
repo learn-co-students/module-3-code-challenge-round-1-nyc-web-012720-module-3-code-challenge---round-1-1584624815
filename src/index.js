@@ -115,7 +115,9 @@ function displayComments(submit) {
   let ul = document.getElementById("comments");
 
   ul.innerHTML += `
-  <li>${submit[0].value}</li>
+  <li>${submit[0].value}
+  <button class="btn delete">delete</button>
+  </li>
   `;
 
   //Clear out input value after list it.
