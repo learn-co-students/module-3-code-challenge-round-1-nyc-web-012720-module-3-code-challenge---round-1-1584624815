@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   commentsURL = `https://randopic.herokuapp.com/comments/`
 
+  likesCounter = document.getElementById("likes")
+
   fetchAndRenderImageData()
   addLikesListener()
 
@@ -24,7 +26,6 @@ const renderImage = (imageData) => {
   const imageCard = document.getElementById("image_card")
   const imageUrlTag = imageCard.getElementsByTagName("img")[0]
   const imageH4 = imageCard.getElementsByTagName("h4")[0]
-  const likesCounter = document.getElementById("likes")
 
   imageCard.dataset.id = imageData.id
   imageUrlTag.src = imageData.url
@@ -37,6 +38,18 @@ const addLikesListener = () => {
   likeButton.addEventListener("click", (event) => {
     let elementId = event.target.parentNode.dataset.id
     console.log(elementId)
+    let numberOfLikes = likesCounter.innerText
+    likesCounter.innerText = ++numberOfLikes
+    // make a POST request
+    const postObj = {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({image_id: elementId})
+    }
+    fetch('https://randopic.herokuapp.com/likes', postObj)
   })
 }
 
