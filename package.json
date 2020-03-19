@@ -1,0 +1,36 @@
+{
+  "name": "module-3-code-challenge-round-1-nyc-web-012720-module-3-code-challenge---round-1-1584624815",
+  "version": "1.0.0",
+  "description": "## Allowed Resources This Code Challenge is designed to test your abilities in a similar situation to a technical assessment from an employer. In order to achieve an accurate assessment, there are a few restrictions on the resources you may use to complete this code challenge.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/learn-co-students/module-3-code-challenge-round-1-nyc-web-012720-module-3-code-challenge---round-1-1584624815.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/learn-co-students/module-3-code-challenge-round-1-nyc-web-012720-module-3-code-challenge---round-1-1584624815/issues"
+  },
+  "homepage": "https://github.com/learn-co-students/module-3-code-challenge-round-1-nyc-web-012720-module-3-code-challenge---round-1-1584624815#readme",
+  "dependencies": {
+    "xo": "^0.28.0"
+  },
+  "xo": {
+    "envs": [
+      "browser"
+    ],
+    "prettier": true,
+    "rules": {
+      "radix": 0,
+      "capitalized-comments": 0
+    }
+  },
+  "prettier": {
+    "semi": false
+  }
+}
