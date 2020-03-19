@@ -14,17 +14,39 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener("click", function(event){
     console.log(event.target)
     if (event.target.id === "like_button"){
-      let span = document.getElementById("likes")
-      let likes = parseInt(span.innerText)
-      likes++
-      span.innerText = likes
+      addLike(event.target)
 
-      persistLikes()
     }
 
 
 
   }) // click closer
+  let form = document.querySelector("form#comment_form")
+  form.addEventListener("submit", function(event){
+    event.preventDefault()
+  }) // submit closer
+
+  function addLike(button){
+    let span = document.getElementById("likes")
+      let likes = parseInt(span.innerText)
+      likes++
+      span.innerText = likes
+      let id = button.dataset.id
+
+      fetch(likeURL, {
+        method: "POST",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "image_id": id
+        })
+      })
+  }
+
+
+
 
   function fetchImage(){
     fetch(imageURL)
@@ -35,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderImage(image){
     let img = document.querySelector("img")
     img.src = image.url 
+    img.dataset.id = image.id
 
     let name = document.getElementById("name")
     name.innerText = image.name
