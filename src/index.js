@@ -1,9 +1,10 @@
 // DONE on load user should see an image, comments for the image, and number of likes
-// user can click a button to like image. like count should increase by 1 without refresh
-// user can submit comment via form, comments should append to existing list of comments
-// likes and comments must persist to the db
+// DONE user can click a button to like image. like count should increase by 1 without refresh
+// DONE user can submit comment via form, comments should append to existing list of comments
+// DONE likes and comments must persist to the db
 
 let image = document.getElementById('image')
+let imageId = 4884 //Enter the id from the fetched image here
 let imageCard = document.getElementById('image_card')
 let imageTitle = document.getElementById('name')
 let likes = document.getElementById('likes')
@@ -16,7 +17,6 @@ let commentsUl = document.getElementById('comments')
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
   
-  let imageId = 4884 //Enter the id from the fetched image here
   
   fetchLayout(imageId)
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
@@ -39,23 +39,35 @@ imageCard.addEventListener('click', function(event) {
         'Accept': 'application/json'
       },
       body: JSON.stringify({
-        image_id: 4884
+        image_id: imageId
       })
     })
   }
 })
 
-// form.addEventListener('submit', function(event) {
-//   event.preventDefault()
-//   let newCommentLi = document.createElement('li')
-//   newCommentLi.innerText = formField.value 
-//   commentsUl.append(newCommentLi)
-//   formField.value = ""
+form.addEventListener('submit', function(event) {
+  event.preventDefault()
+  let newCommentLi = document.createElement('li')
+  newCommentLi.innerText = formField.value 
+  commentsUl.append(newCommentLi)
+  formField.value = ""
 
-//   fetch('https://randopic.herokuapp.com/comments', {
-//     method:
-//   })
-// })
+  fetch('https://randopic.herokuapp.com/comments', {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify({
+      image_id: imageId,
+      content: event.target.parentNode.querySelector('ul').lastChild.innerText
+    })
+  })
+  .then(response => response.json())
+  .then(comment => {
+    console.log(comment)
+  })
+})
 
 
 function fetchLayout(imageId) {
