@@ -3,6 +3,7 @@ const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
 const likeURL = `https://randopic.herokuapp.com/likes/`
 const commentsURL = `https://randopic.herokuapp.com/comments/`
 const getLikeId = document.getElementById("likes")
+const likeButton = document.getElementById("like_button")
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -20,11 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
   
   const renderImage = image => {
     const getImageId = document.getElementById("image")
-    getImageId+=`img src="${image}" id="image" data-id=""/>`
-  }
-  
-  const setLikes = likes => {
-    getLikeId.innerText = `${like}`
+    getImageId+=`img src="${image.url}" id="${image.id}" data-id="${image.id}"/>`
   }
 
+  likeButton.addEventListener("click", event => {
+    if(event.target.innerText === "Like")
+      setLikes(event)
+  })
+  
+  const setLikes = like => {
+    getLikeId.innerText = `${like}`
+    let likes = parseInt(getLikeId.innerText)
+    likes++
+
+    updateScore(likes, id)
+  }
+
+  const updateScore = (likes, id)
+  let id = 
+  
 })
