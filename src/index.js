@@ -68,7 +68,7 @@ function createComment(comment, ul){
   // create li for comment 
   let li = document.createElement('li')
   li.innerHTML = `${comment.content} ${comment.image_id}
-  ${commentc.reated_at} ${comment.updated_at}`
+  ${comment.reated_at} ${comment.updated_at}`
   // add li to ul 
   // add ul to body
   ul.appendChild(li)
