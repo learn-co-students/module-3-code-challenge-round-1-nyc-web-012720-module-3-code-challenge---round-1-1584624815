@@ -79,20 +79,27 @@ function postLike(event) {
 		})
 }
 
+// I should really DRY out the two functions below, but time is a factor and this was easier...
 function addComment(event) {
 	const commentLI = document.createElement('li')
 	const commentList = document.querySelector('#comments')
+	const deleteButton = document.createElement('button')
+	deleteButton.textContent = 'Delete'
 	commentLI.className = 'comment'
 	commentLI.textContent = event.target.comment.value
 	commentList.append(commentLI)
+	commentLI.append(deleteButton)
 }
 
 function loadComments(text) {
 	const commentLI = document.createElement('li')
 	const commentList = document.querySelector('#comments')
+	const deleteButton = document.createElement('button')
+	deleteButton.textContent = 'Delete'
 	commentLI.className = 'comment'
 	commentLI.textContent = text
 	commentList.append(commentLI)
+	commentLI.append(deleteButton)
 }
 
 function postComment(event) {
@@ -115,4 +122,15 @@ function postComment(event) {
 		.then(result => {
 			console.log(result)
 		})
+}
+
+function deleteComment() {
+	const deleteObject = {
+		method: 'DELETE',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({})
+	}
 }
