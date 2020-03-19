@@ -95,21 +95,21 @@ const updateLikes = imgId => {
 }
 
 
-const postComment = (imageId, comment) => {
-  // // create an event listener to grab the user's input when the submit the comment
-  // // use a POST fetch to store the user's input in the db
-  // // render the new post
-  // I haven't finished but I started the code!
-  fetch (commentsURL, {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ 
-      image_id: (insert image id here),
-      content: (insert comment content here)
-    })
-  })
+// const postComment = (imageId, comment) => {
+//   // // create an event listener to grab the user's input when the submit the comment
+//   // // use a POST fetch to store the user's input in the db
+//   // // render the new post
+//   // I haven't finished but I started the code!
+//   fetch (commentsURL, {
+//     method: 'POST',
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({ 
+//       image_id: (insert image id here),
+//       content: (insert comment content here)
+//     })
+//   })
 
-}
+// }
