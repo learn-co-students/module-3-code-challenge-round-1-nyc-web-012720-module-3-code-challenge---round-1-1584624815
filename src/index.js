@@ -90,8 +90,5 @@ function newComment() {
       })
       event.target.reset()
     }
-    
-    
-
   })
 }
