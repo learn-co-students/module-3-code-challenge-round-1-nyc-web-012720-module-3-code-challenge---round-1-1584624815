@@ -1,3 +1,10 @@
+
+/*
+step1.
+  1.[√]Get request to load image on page.
+*/
+let fetchImage;
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta');
 
@@ -9,13 +16,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const commentsURL = `https://randopic.herokuapp.com/comments/`;
 
+
+  fetchImage = function () {
+    fetch(imageURL)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (image) {
+        renderImage(image);
+      });
+  };
+  fetchImage();
+
 });
 
-/*
-step1.
-  1.Get request to load image on page.
-*/
+function renderImage(image) {
+  let img = document.getElementById("image");
+  return img.src = image.url;
+}
 
-document.addEventListener("DOMContentLoaded", function ()}
-  renderImage()
-);
+
