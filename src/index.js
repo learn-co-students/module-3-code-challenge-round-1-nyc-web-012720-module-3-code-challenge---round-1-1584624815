@@ -12,11 +12,15 @@ document.addEventListener('DOMContentLoaded', () => {
 	getImage()
 
 	document.addEventListener('click', event => {
-		console.log('click')
 		if (event.target.id === 'like_button') {
-			console.log('like click')
 			addLike()
+			postLike(event)
 		}
+	})
+	document.addEventListener('submit', event => {
+		event.preventDefault()
+		addComment(event)
+		postComment(event)
 	})
 })
 
@@ -26,6 +30,7 @@ function getImage() {
 			return response.json()
 		})
 		.then(result => {
+			console.log(result)
 			renderImage(result)
 		})
 }
@@ -36,7 +41,7 @@ function renderImage(image) {
   <img src="${image.url}" id="image" data-id="${image.id}"/>
   <h4 id="name">${image.name}</h4>
   <span>Likes:
-    <span id="likes">0</span>
+    <span id="likes">${image.like_count}</span>
   </span>
   <button id="like_button">Like</button>
   <form id="comment_form">
@@ -45,6 +50,9 @@ function renderImage(image) {
   </form>
   <ul id="comments">
   </ul>`
+	image.comments.forEach(comment => {
+		loadComments(comment.content)
+	})
 }
 
 function addLike() {
@@ -52,11 +60,59 @@ function addLike() {
 	likes.textContent++
 }
 
-function postLike() {
-  postObject = {
-    method: 'POST',
-    headers: {
-      'content-type'
-    }
-  }
+function postLike(event) {
+	const imageID = event.target.parentNode.querySelector('#image').dataset.id
+	const postObject = {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({image_id: imageID})
+	}
+	fetch('https://randopic.herokuapp.com/likes', postObject)
+		.then(response => {
+			return response.json()
+		})
+		.then(result => {
+			console.log(result)
+		})
+}
+
+function addComment(event) {
+	const commentLI = document.createElement('li')
+	const commentList = document.querySelector('#comments')
+	commentLI.className = 'comment'
+	commentLI.textContent = event.target.comment.value
+	commentList.append(commentLI)
+}
+
+function loadComments(text) {
+	const commentLI = document.createElement('li')
+	const commentList = document.querySelector('#comments')
+	commentLI.className = 'comment'
+	commentLI.textContent = text
+	commentList.append(commentLI)
+}
+
+function postComment(event) {
+	const imageID = event.target.parentNode.querySelector('#image').dataset.id
+	const postObject = {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			image_id: imageID,
+			content: event.target.comment.value
+		})
+	}
+	fetch('https://randopic.herokuapp.com/comments', postObject)
+		.then(response => {
+			return response.json()
+		})
+		.then(result => {
+			console.log(result)
+		})
 }
