@@ -6,6 +6,8 @@ step 1.
 step 2.
   1.[√]Add like to picture
   2.[√]As 'click' event, increase the number of likes
+  step 3.
+    1.[]Send 'Patch'  to backend by fecthing to backend.
 */
 let fetchImage;
 let imageData;
@@ -34,34 +36,46 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   fetchImage();
 
+  document.body.addEventListener("click", function (event) {
+    if (event.target.id === "like_button") {
+      addLikes(event.target);
+      updateLikes(likeURL);
+    }
+  });
+
 });
 
-document.body.addEventListener("click", function (event) {
-  if (event.target.id === "like_button") {
-    addLikes(event.target);
-  }
-});
+
 
 function renderImage(image) {
-
   let img = document.getElementById("image");
   let h4 = document.getElementById("name");
+  let span = btn.parentNode.querySelector("#likes");
 
   img.src = image.url;
   h4.innerText = image.name;
-
-}
-
-function addLikes(btn) {
-  let span = btn.parentNode.querySelector("#likes");
   btn.dataset.imageId = imageData.id;
+  span.innerText = imageData.like_count;
 
-  if (span.innerText === "Likes Go Here") {
-    return span.innerText = 0;
-  } else {
-    let likes = parseInt(span.innerText);
-    likes++;
-    return span.innerText = likes;
+
+  function addLikes(btn) {
+    span.innerText = imageData.like_count;
   }
-
 }
+
+const updateLikes = function (likeURL) {
+  fetch(likeURL, {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ "image_id": imageData.id })
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+    });
+};
