@@ -9,4 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const commentsURL = `https://randopic.herokuapp.com/comments/`
 
+  
+
+  function fetchImage(){
+    fetch(imageURL)
+    .then(resp => resp.json())
+    .then(image => renderImage)
+  }
 })
