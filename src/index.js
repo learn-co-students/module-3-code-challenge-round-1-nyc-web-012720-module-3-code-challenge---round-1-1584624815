@@ -45,12 +45,16 @@ const renderComments = (imageData) => {
 
 const renderNewComment = (commentData) => {
   const li = document.createElement('li')
-  const button = document.createElement('button')
-  button.innerText = "Delete"
   li.dataset.id = commentData.id
   li.innerText = commentData.content
-  li.append(button)
+  addDeleteButton(li)
   commentsUl.append(li)
+}
+
+const addDeleteButton = (element) => {
+  const button = document.createElement('button')
+  button.innerText = "Delete"
+  element.append(button)
 }
 
 const addLikesListener = () => {
