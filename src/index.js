@@ -35,26 +35,28 @@ const renderImage = image => {
 
   const commentTag = imageCard.querySelector('ul')
   commentTag.innerHTML = renderComments(image.comments)
-  // console.log(image)
+  // console.log(image.comments)
   // console.log(imageCard)
 }
 
+const commentSection = imageCard.querySelector("#comments")
 const renderComments = comments => {
-  comments.addEventListener('submit', event =>{
-    event.preventDeful
-  })
-  
-  // create an event listener to grab the user's input when the submit the comment
-  // use a POST fetch to store the user's input in the db
-  // render the new post
+  let pTag = document.createElement('p')
   comments.forEach(comment => {
-    renderComment(comment)
+    let rendered = renderComment(comment)
+    pTag.innerHTML = rendered
   });
+  return pTag.innerHTML
+
 }
 
+
 const renderComment = comment => {
-  // console.log("here for the comment")
-  console.log(comment)
+  // need to fix function so that it returns an object and not just the string :(
+  // would love to play with it some more but at least I got the first comment to show
+  // console.log(comment)
+  // console.log(comment.content)
+  return comment.content
 }
 
 const likeImage = () => {
@@ -90,4 +92,24 @@ const updateLikes = imgId => {
   })
   .then(res => res.json())
   // .then(console.log)
+}
+
+
+const postComment = (imageId, comment) => {
+  // // create an event listener to grab the user's input when the submit the comment
+  // // use a POST fetch to store the user's input in the db
+  // // render the new post
+  // I haven't finished but I started the code!
+  fetch (commentsURL, {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ 
+      image_id: (insert image id here),
+      content: (insert comment content here)
+    })
+  })
+
 }
