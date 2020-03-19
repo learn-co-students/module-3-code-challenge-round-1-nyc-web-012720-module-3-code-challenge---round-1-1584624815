@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
 
-  let imageId = 1 //Enter the id from the fetched image here
+  let imageId = 4872 //Enter the id from the fetched image here
 
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
 
@@ -9,11 +9,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const commentsURL = `https://randopic.herokuapp.com/comments/`
 
-  
+  fetchImage()
+
+  document.addEventListener("click", function(event){
+    console.log(event.target)
+    if (event.target.id === "like_button"){
+      let span = document.getElementById("likes")
+      let likes = parseInt(span.innerText)
+      likes++
+      span.innerText = likes
+
+      persistLikes()
+    }
+
+
+
+  }) // click closer
 
   function fetchImage(){
     fetch(imageURL)
     .then(resp => resp.json())
-    .then(image => renderImage)
+    .then(image => renderImage(image))
+  }
+
+  function renderImage(image){
+    let img = document.querySelector("img")
+    img.src = image.url 
+
+    let name = document.getElementById("name")
+    name.innerText = image.name
+
+    let likes = document.getElementById("likes")
+    likes.innerText = image.like_count
+
+    renderComments(image)
+  }
+
+
+  function renderComments(image){
+    image.comments.forEach(comment => {
+      let ul = document.getElementById("comments")
+      let li = document.createElement("li")
+      li.innerText = comment.content
+
+      ul.append(li)
+    })
   }
 })
