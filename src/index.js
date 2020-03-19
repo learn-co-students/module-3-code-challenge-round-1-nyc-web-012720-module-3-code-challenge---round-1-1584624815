@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const commentList = document.querySelector("#comments");
   const likeButton = document.querySelector("#like_button");
   const commentForm = document.querySelector("#comment_form");
-  const commentValue = document.querySelector("#comment_input").value;
+ 
 
   // <div class="container">
   //   <div class="row" id="image_content">
@@ -58,8 +58,15 @@ document.addEventListener('DOMContentLoaded', () => {
     span.innerHTML = img.like_count;
     img.comments.forEach(comment => {
       const li = document.createElement("li");
+      const delBtn = document.createElement("button");
+      delBtn.innerHTML = " X "
       li.innerHTML = comment.content;
+      li.appendChild(delBtn);
       commentList.appendChild(li);
+
+      delBtn.onclick = () => {
+      
+      }
     });
 
   }
@@ -94,26 +101,60 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  const addCommentBack = () => {
+  const addCommentBack = (comment) => {
+    newComObj = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        image_id: imageId,
+        content: comment
+      })
+    };
 
+    fetch(commentsURL, newComObj)
+      .then(res => res.json())
+      .then(comment => console.log(comment))
+      .catch(err => console.log(err));
   }
 
 
-  const addCommentFront = () => {
+  const addCommentFront = (comment) => {
     const li = document.createElement("li");
-    li.innerHTML = commentValue;
+    li.innerHTML = comment;
     commentList.appendChild(li);
+    commentForm.reset();
   }
 
+  const deleteComment = () => {
+    byeComObj = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    };
 
+    fetch(`${commentsURL}/${comment.id}`, byeComObj)
+      .then(res => res.json())
+      .then(comment => console.log(comment))
+      .catch(err => console.log(err));
+  }
+  
+  
   getImage();
+
   likeButton.onclick = () => {
     addLikeFront();
     addLikeBack();
   }
+
   commentForm.onsubmit = (e) => {
     e.preventDefault();
-    addCommentFront();
-
+    const commentValue = document.querySelector("#comment_input").value;
+    addCommentFront(commentValue);
+    addCommentBack(commentValue);
   }
 })
