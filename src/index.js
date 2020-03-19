@@ -3,11 +3,14 @@ const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
 const likeURL = `https://randopic.herokuapp.com/likes/`
 const commentsURL = `https://randopic.herokuapp.com/comments/`
 
+const imageCard = document.getElementById("image_card")
+const commentTag = imageCard.querySelector('ul')
+const likeBtn = imageCard.querySelector("#like_button")
+
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
   getImage()
   likeImage()
-
 })
 
 
@@ -19,8 +22,6 @@ const getImage = () => {
   .then(image => renderImage(image))
 }
 
-const imageCard = document.getElementById("image_card")
-const commentTag = imageCard.querySelector('ul')
 const renderImage = image => {
   const imageTag = imageCard.querySelector('img')
   imageTag.src = image.url
@@ -39,6 +40,13 @@ const renderImage = image => {
 }
 
 const renderComments = comments => {
+  comments.addEventListener('submit', event =>{
+    event.preventDeful
+  })
+  
+  // create an event listener to grab the user's input when the submit the comment
+  // use a POST fetch to store the user's input in the db
+  // render the new post
   comments.forEach(comment => {
     renderComment(comment)
   });
@@ -46,14 +54,13 @@ const renderComments = comments => {
 
 const renderComment = comment => {
   // console.log("here for the comment")
-  // console.log(comment)
+  console.log(comment)
 }
 
-const likeBtn = imageCard.querySelector("#like_button")
 const likeImage = () => {
   // √ add an event listener for the click on the like button
   // √ grab the number of likes, √ parseInt and √ increment the likes
-  // render it to show on the DOM without refreshing and stays when refreshed
+  // √render it to show on the DOM √ without refreshing and √ stays when refreshed
   likeBtn.addEventListener('click', event =>{
     if (event.target.id === "like_button"){
       increaseLikes(event.target)
@@ -67,19 +74,20 @@ const increaseLikes = button => {
   let num = parseInt(likes)
   num ++
   button.parentNode.querySelector('#likes').innerHTML = num
-  console.log(imgId)
-  // updateLikes(imgId)
+  updateLikes(imgId)
 }
 
-// const updateLikes = likes => {
-//   fetch(likeURL, {
-//     mehtod: "POST",
-//     headers: {
-//       'Accept': 'application/json',
-//       'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({
-//       image_id: (insert image id here)
-//     })
-//   })
-// }
+const updateLikes = imgId => {
+  fetch(likeURL, {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      image_id: imgId
+    })
+  })
+  .then(res => res.json())
+  // .then(console.log)
+}
