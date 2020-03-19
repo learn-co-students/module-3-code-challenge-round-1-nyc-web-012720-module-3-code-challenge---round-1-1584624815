@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
 
-  let imageId = 1 'https://randopic.herokuapp.com/images/4875'
+  let imageId = 'https://randopic.herokuapp.com/images/4875'
 
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
 
@@ -21,7 +21,5 @@ document.addEventListener("DOMContentLoaded", event => {
 const getImage = () => {
   fetch(imageURL)
   .then(response => response.json())
-  .then((image) => {
-    console.log(image);
-  });
-}
+  .then(console.log)
+  }
