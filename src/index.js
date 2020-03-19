@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //call functions
   getImage();
+  likePic();
 
 })
 
@@ -29,9 +30,7 @@ function renderImage(object) {
   imgCard.innerHTML = `
       <img src=${object.url} id="image" data-id=""/>
       <h4 id="name">${object.name}</h4>
-        <span>Likes:
-          <span id="likes">${object.like_count}</span>
-        </span>
+        <span id="likes"> Likes:${object.like_count}</span>
       <button id="like_button">Like</button>
         <form id="comment_form">
           <input id="comment_input" type="text" name="comment" placeholder="Add Comment"/>
@@ -41,5 +40,12 @@ function renderImage(object) {
         <li> ${object.comments.forEach( x => { x.content})} </li>
       </ul>
   `
+}
+
+function likePic() {
+    const likeButtton = document.getElementById("like_button")
+    const span = document.getElementById("likes")
+    console.log(span.innerText)
+
 }
 
