@@ -24,6 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
     imageNode.src = data.url
     titleNode.innerText = data.name
     likesNode.innerText = data.like_count
+    data.comments.forEach(element => {
+      let newCommentNode = document.createElement("LI")
+      newCommentNode.innerText = element.content
+      commentsNode.appendChild(newCommentNode)
+  
+    });
   });
 
   likesBTN.addEventListener("click", liked)
@@ -69,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       referrerPolicy: 'no-referrer', // no-referrer, *client
       body: JSON.stringify({
         image_id: imageId,
-        content = userText
+        content: userText
       }) // body data type must match "Content-Type" header
     })
     .then((response) => {
