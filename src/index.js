@@ -5,14 +5,10 @@ const commentsURL = `https://randopic.herokuapp.com/comments/`
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
-
-
   getImage()
+  likeImage()
 
 })
-
-
-
 
 
 const getImage = () => {
@@ -23,9 +19,8 @@ const getImage = () => {
   .then(image => renderImage(image))
 }
 
-
 const imageCard = document.getElementById("image_card")
-
+const commentTag = imageCard.querySelector('ul')
 const renderImage = image => {
   const imageTag = imageCard.querySelector('img')
   imageTag.src = image.url
@@ -35,7 +30,36 @@ const renderImage = image => {
   nameTag.innerText = image.name
 
   const likeTag = imageCard.querySelector('span').querySelector('span')
+  likeTag.innerHTML = image.like_count
 
-  console.log(image)
+  const commentTag = imageCard.querySelector('ul')
+  commentTag.innerHTML = renderComments(image.comments)
+  // console.log(image)
   console.log(imageCard)
+}
+
+const renderComments = comments => {
+  comments.forEach(comment => {
+    renderComment(comment)
+  });
+}
+
+const renderComment = comment => {
+  console.log("here for the comment")
+  console.log(comment)
+}
+
+const likeBtn = imageCard.querySelector("#like_button")
+const likeImage = () => {
+  // add an event listener for the click on the like button
+  // grab the number of likes, parseInt and increment the likes
+  // render it to show on the DOM without refreshing and stays when refreshed
+  likeBtn.addEventListener('click', event =>{
+    if event.target
+    increaseLikes(event.target)
+  })
+}
+
+const increaseLikes = button => {
+  console.log(button)
 }
