@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetchImage()
   updateLikes()
+  newComment()
 
 })
 
@@ -30,7 +31,7 @@ function renderImage(image) {
       <span id="likes">${image.like_count}</span>
     </span>
     <button class="like_button">Like</button>
-    <form id="comment_form">
+    <form class="comment_form">
       <input id="comment_input" type="text" name="comment" placeholder="Add Comment"/>
       <input type="submit" value="Submit"/>
     </form>
@@ -64,5 +65,33 @@ function updateLikes() {
       }
       )
     }
+  })
+}
+
+function newComment() {
+  document.addEventListener("submit", function (event) {
+    if (event.target.className === "comment_form") {
+      event.preventDefault()
+      const list = document.getElementById("comments")
+      const li = document.createElement("li")
+      li.innerText = event.target.comment.value
+      list.appendChild(li)
+
+      fetch("https://randopic.herokuapp.com/comments", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          image_id: 4874,
+          content: event.target.comment.value
+        })
+      })
+      event.target.reset()
+    }
+    
+    
+
   })
 }
