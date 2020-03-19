@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
 
+  //===================== VARIABLES ================================//
+
   let imageId = 4877 //Enter the id from the fetched image here
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
   const likeURL = `https://randopic.herokuapp.com/likes/`
@@ -11,53 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
   const commentList = document.querySelector("#comments");
   const likeButton = document.querySelector("#like_button");
   const commentForm = document.querySelector("#comment_form");
- 
-
-  // <div class="container">
-  //   <div class="row" id="image_content">
-  //     <div class="card col-md-4"></div>
-  //     <div id="image_card" class="card col-md-4">
-  //         <img src="" id="image" data-id=""/>
-  //         <h4 id="name">Title of image goes here</h4>
-  //         <span>Likes:
-  //           <span id="likes">Likes Go Here</span>
-  //         </span>
-  //         <button id="like_button">Like</button>
-  //         <form id="comment_form">
-  //           <input id="comment_input" type="text" name="comment" placeholder="Add Comment"/>
-  //           <input type="submit" value="Submit"/>
-  //         </form>
-  //         <ul id="comments">
-  //              <!-- <li> for each comment goes here -->
-  //         </ul>
-  //       </div>
-  //     <div class="card col-md-4"></div>
-  //   </div>
-  // </div>
-
-//   Example Response:
-// {
-//   "id": 1,
-//   "url": "http://blog.flatironschool.com/wp-content/uploads/2016/07/072716-js-saved-web-4-352x200.jpg",
-//   "name": "The Internet!",
-//   "like_count": 0,
-//   "comments": [
-//     {
-//       "id": 5941,
-//       "content": "first comment!",
-//       "image_id": 1158,
-//       "created_at": "2018-10-18T17:06:14.859Z",
-//       "updated_at": "2018-10-18T17:06:14.859Z"
-//     }
-//   ]
-// }
+  
+//===================== RENDERING FUNCTIONS ================================//
 
   const renderImg = (img) => {
     imgEl.setAttribute("src", img.url);
     h4.innerHTML = img.name;
     span.innerHTML = img.like_count;
     img.comments.forEach(comment => {
+      renderComment(comment)
+    });
+  }
+
+  const renderComment = (comment) => {
+    if (comment.id) {
       const li = document.createElement("li");
+      li.setAttribute("id", comment.id)
       const delBtn = document.createElement("button");
       delBtn.innerHTML = " X "
       li.innerHTML = comment.content;
@@ -65,11 +36,25 @@ document.addEventListener('DOMContentLoaded', () => {
       commentList.appendChild(li);
 
       delBtn.onclick = () => {
-      
+        deleteComment(comment)
       }
-    });
+    } else {
+      const li = document.createElement("li");
+      const delBtn = document.createElement("button");
+      delBtn.innerHTML = " X ";
+      delBtn.disabled = true;
+      li.innerHTML = comment;
+      li.appendChild(delBtn);
+      commentList.appendChild(li);
 
+      li.onclick = () => {
+        alert("Deleting this Comment is disabled for now.")
+      }
+    }
   }
+
+  //===================== GET IMAGE FUNCTION ================================//
+
 
   const getImage = () => {
     fetch(imageURL)
@@ -77,6 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(img => renderImg(img))
       .catch(err => console.log(err));
   }
+
+  //===================== LIKE FUNCTIONS ================================//
+
 
   const addLikeBack = () => {
     newLikeObj = {
@@ -100,6 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
     span.innerHTML = likeCount;
   }
 
+  //===================== COMMENT FUNCTIONS ================================//
+
 
   const addCommentBack = (comment) => {
     newComObj = {
@@ -122,28 +112,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   const addCommentFront = (comment) => {
-    const li = document.createElement("li");
-    li.innerHTML = comment;
-    commentList.appendChild(li);
+    renderComment(comment)
     commentForm.reset();
   }
 
-  const deleteComment = () => {
-    byeComObj = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json"
-      }
-    };
-
-    fetch(`${commentsURL}/${comment.id}`, byeComObj)
-      .then(res => res.json())
-      .then(comment => console.log(comment))
-      .catch(err => console.log(err));
+  const deleteComment = (comment) => {
+      byeComObj = {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        }
+      };
+  
+      fetch(`${commentsURL}/${comment.id}`, byeComObj)
+        .then(res => res.json())
+        .then(() => {
+          const li = document.getElementById(`${comment.id}`);
+          li.remove();
+        })
+        .catch(err => console.log(err));
   }
   
-  
+  //===================== EVENT LISTENERS AND FIRST FUNC CALL ================================//
+
   getImage();
 
   likeButton.onclick = () => {
