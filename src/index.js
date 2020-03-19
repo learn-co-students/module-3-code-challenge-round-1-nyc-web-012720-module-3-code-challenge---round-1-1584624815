@@ -7,7 +7,10 @@ step 2.
   1.[√]Add like to picture
   2.[√]As 'click' event, increase the number of likes
   step 3.
-    1.[√]Send 'Patch'  to backend by fecthing to backend.
+  1.[√]Send 'Patch'  to backend by fecthing to backend.
+  step 4.
+  1.[√]Add comment optimistically
+  2.[√]Clear out input text that typed in.
 */
 let fetchImage;
 let imageData;
@@ -16,13 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta');
 
   let imageId = 4860; //Enter the id from the fetched image here
-
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`;
-
   const likeURL = `https://randopic.herokuapp.com/likes/`;
-
   const commentsURL = `https://randopic.herokuapp.com/comments/`;
-
+  const form = document.getElementById("comment_form");
 
   fetchImage = function () {
     fetch(imageURL)
@@ -43,6 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    displayComments(event.target);
+  });
 });
 
 
@@ -82,3 +87,14 @@ const updateLikes = function (likeURL) {
       console.log(data);
     });
 };
+
+function displayComments(submit) {
+  let ul = document.getElementById("comments");
+
+  ul.innerHTML += `
+  <li>${submit[0].value}</li>
+  `;
+
+  //Clear out input value after list it.
+  submit[0].value = "";
+}
