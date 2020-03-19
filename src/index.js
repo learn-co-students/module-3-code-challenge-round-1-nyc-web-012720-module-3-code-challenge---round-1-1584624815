@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
 
-  let imageId = 1 //Enter the id from the fetched image here
+  let imageId = 4861
 
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
 
@@ -10,3 +10,4 @@ document.addEventListener('DOMContentLoaded', () => {
   const commentsURL = `https://randopic.herokuapp.com/comments/`
 
 })
+
