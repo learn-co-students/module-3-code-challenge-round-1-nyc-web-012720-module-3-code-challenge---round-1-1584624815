@@ -7,7 +7,7 @@ step 2.
   1.[√]Add like to picture
   2.[√]As 'click' event, increase the number of likes
   step 3.
-    1.[]Send 'Patch'  to backend by fecthing to backend.
+    1.[√]Send 'Patch'  to backend by fecthing to backend.
 */
 let fetchImage;
 let imageData;
@@ -50,17 +50,20 @@ document.addEventListener('DOMContentLoaded', () => {
 function renderImage(image) {
   let img = document.getElementById("image");
   let h4 = document.getElementById("name");
-  let span = btn.parentNode.querySelector("#likes");
+  let span = document.querySelector("#likes");
 
   img.src = image.url;
   h4.innerText = image.name;
-  btn.dataset.imageId = imageData.id;
+
   span.innerText = imageData.like_count;
+}
 
+function addLikes(btn) {
+  let span = document.querySelector("#likes");
+  btn.dataset.imageId = imageData.id;
 
-  function addLikes(btn) {
-    span.innerText = imageData.like_count;
-  }
+  imageData.like_count++;
+  span.innerText = imageData.like_count;
 }
 
 const updateLikes = function (likeURL) {
