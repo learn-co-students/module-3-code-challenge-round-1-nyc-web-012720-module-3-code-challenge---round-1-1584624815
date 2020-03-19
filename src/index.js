@@ -6,13 +6,35 @@ const commentsURL = `https://randopic.herokuapp.com/comments/`
 const imageCard = document.getElementById("image_card")
 const commentTag = imageCard.querySelector('ul')
 const likeBtn = imageCard.querySelector("#like_button")
+const commentForm = imageCard.querySelector("#comment_form")
+const commentSection = imageCard.querySelector("#comments")
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
   getImage()
   likeImage()
+  submitComment()
 })
 
+function submitComment(){
+  commentForm.addEventListener("submit", function(event){
+    event.preventDefault()
+    const target = event.target.querySelectorAll("input")[1].value
+    if (target === "Submit"){
+      showComment(event.target)
+      commentForm.reset()
+    }
+  })
+}
+
+function showComment(submit){
+  let imageId = parseInt(submit.parentNode.querySelector("img").dataset.id)
+  let userInput = submit.querySelector("input").value
+  let li = document.createElement("li")
+  li.innerHTML = userInput;
+  commentSection.appendChild(li)
+  postComment(imageId, userInput)
+}
 
 const getImage = () => {
   // use a GET fetch to grab the image
@@ -33,21 +55,18 @@ const renderImage = image => {
   const likeTag = imageCard.querySelector('span').querySelector('span')
   likeTag.innerHTML = image.like_count
 
-  const commentTag = imageCard.querySelector('ul')
-  commentTag.innerHTML = renderComments(image.comments)
+  renderComments(image.comments)
   // console.log(image.comments)
   // console.log(imageCard)
 }
 
-const commentSection = imageCard.querySelector("#comments")
+
 const renderComments = comments => {
-  let pTag = document.createElement('p')
+
   comments.forEach(comment => {
     let rendered = renderComment(comment)
-    pTag.innerHTML = rendered
+    commentSection.appendChild(rendered)
   });
-  return pTag.innerHTML
-
 }
 
 
@@ -56,7 +75,9 @@ const renderComment = comment => {
   // would love to play with it some more but at least I got the first comment to show
   // console.log(comment)
   // console.log(comment.content)
-  return comment.content
+  let li = document.createElement("li")
+  li.innerHTML = comment.content
+  return li
 }
 
 const likeImage = () => {
@@ -107,9 +128,10 @@ const postComment = (imageId, comment) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ 
-      image_id: (insert image id here),
-      content: (insert comment content here)
+      image_id: imageId,
+      content: comment
     })
   })
-
+  .then(response => response.json())
+  .then(json => console.log(json))
 }
