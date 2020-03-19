@@ -27,7 +27,11 @@ function fetchImages(){
 
 // add image to the browser
 function addImage(image){
-  console.log(image.url)
+  // console.log(image.url)
+  // console.log(image.id)
+  // console.log(image.name)
+  // console.log(image.like_count)
+  // console.log(image.comment)
   // let newDiv = document.createElement('div')
   body.innerHTML = `<div class="container">
   <div class="row" id="image_content">
@@ -44,13 +48,30 @@ function addImage(image){
           <input type="submit" value="Submit"/>
         </form>
         <ul id="comments">
-             <li> ${image.comment} </li>
+             
         </ul>
       </div>
     <div class="card col-md-4"></div>
   </div>
 </div>
   `
+  let ul = document.getElementById('comments')
+  let comments = image.comments
+  comments.forEach(function(comment){
+    createComment(comment, ul)
+  })
+  
+}
+
+// create and add comment
+function createComment(comment, ul){
+  // create li for comment 
+  let li = document.createElement('li')
+  li.innerHTML = `${comment.content} ${comment.image_id}
+  ${commentc.reated_at} ${comment.updated_at}`
+  // add li to ul 
+  // add ul to body
+  ul.appendChild(li)
 }
 
 // add like
