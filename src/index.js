@@ -9,8 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   commentsURL = `https://randopic.herokuapp.com/comments/`
 
+  likeButton = document.getElementById("like_button")
   likesCounter = document.getElementById("likes")
   commentsUl = document.getElementById("comments")
+  commentForm = document.getElementById("comment_form")
 
   fetchAndRenderImageData()
   addLikesListener()
@@ -54,34 +56,36 @@ const renderNewComment = (commentData) => {
 const addDeleteButton = (element) => {
   const button = document.createElement('button')
   button.innerText = "Delete"
+  button.className = "delete-button"
   element.append(button)
 }
 
 const addLikesListener = () => {
-  const likeButton = document.getElementById("like_button")
-  likeButton.addEventListener("click", (event) => {    
+  likeButton.addEventListener("click", event => {    
     let numberOfLikes = likesCounter.innerText
     likesCounter.innerText = ++numberOfLikes
     
-    let elementId = event.target.parentNode.dataset.id
-    const postObj = {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({image_id: elementId})
-    }
-    fetch(likeURL, postObj)
+    createNewLike()
   })
 }
 
+const createNewLike = () => {
+  const postObj = {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({image_id: imageId})
+  }
+  fetch(likeURL, postObj)
+}
+
 const addCommentListener = () => {
-  const commentForm = document.getElementById("comment_form")
   commentForm.addEventListener("submit", event => {
     event.preventDefault()
     let content = event.target.comment.value
-    // run a fetch POST request
+    
     const commentObj = {
       method: "POST",
       headers: {
@@ -94,22 +98,27 @@ const addCommentListener = () => {
       })
     }
 
-    fetch(commentsURL, commentObj)
-    .then(response => response.json())
-    .then(comment => renderNewComment(comment))
+    createAndRenderNewComment(commentObj)
     commentForm.reset()
   })
 }
 
+const createAndRenderNewComment = (commentObj) => {
+  fetch(commentsURL, commentObj)
+  .then(response => response.json())
+  .then(comment => renderNewComment(comment))
+}
+
 const addClickListener = () => {
   commentsUl.addEventListener("click", event => {
-    console.log(event.target.parentNode.dataset.id)
+    if (event.target.className === "delete-button") {
     let commentId = event.target.parentNode.dataset.id
     fetch(`https://randopic.herokuapp.com/comments/${commentId}`, {
       method: "DELETE"
     })
     .then(response => response.json())
     .then(answerMessage => event.target.parentNode.remove())
+    }
   })
 }
 
