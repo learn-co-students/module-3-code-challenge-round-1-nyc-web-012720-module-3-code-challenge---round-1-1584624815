@@ -4,6 +4,8 @@ const likeURL = `https://randopic.herokuapp.com/likes/`
 const commentsURL = `https://randopic.herokuapp.com/comments/`
 const getLikeId = document.getElementById("likes")
 const likeButton = document.getElementById("like_button")
+const submitButton = document.querySelector('submit')
+const ul = document.getElementById("comments")
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -12,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
   getImage = () => {
     fetch(imageURL)
     .then(response => response.json())
-    .then(response => {
-      renderImage(response.url)
-      setLikes(response.like_count)
+    .then(image => {
+      renderImage(image.url)
+      updateScore(image.like_count, image.id)
       
     })
   }
@@ -24,20 +26,39 @@ document.addEventListener('DOMContentLoaded', () => {
     getImageId+=`img src="${image.url}" id="${image.id}" data-id="${image.id}"/>`
   }
 
-  likeButton.addEventListener("click", event => {
-    if(event.target.innerText === "Like")
-      setLikes(event)
-  })
-  
   const setLikes = like => {
     getLikeId.innerText = `${like}`
     let likes = parseInt(getLikeId.innerText)
     likes++
+        
+    updateScore(likes)
+    }
 
-    updateScore(likes, id)
+  likeButton.addEventListener("click", event => {
+    if(event.target.innerText === "Like"){
+
+    }
+  })
+  
+  const updateScore = (likes, id) => {
+    fetch(`${BASE_URL}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "content-type": "application/json",
+        "accept": "application/json"
+      },
+      body: JSON.stringify({like: likes, id: id})
+    })
+    .then(response => response.json())
+    .then(console.log)
   }
 
-  const updateScore = (likes, id)
-  let id = 
-  
+  submitButton.addEventListener('submit', event => {
+    event.preventDefault()
+    let comment = event.target.value
+    let li = document.createElement('LI')
+    li.setAttribute('class', 'comment')
+    li.innerText+=`${event.target.value}`
+    ul.append(li)
+  })
 })
