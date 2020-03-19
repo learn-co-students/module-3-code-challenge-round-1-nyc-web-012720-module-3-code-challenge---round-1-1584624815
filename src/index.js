@@ -4,8 +4,8 @@ step 1.
   1.[√]Get request to load image on page.
   2.[√]display name of image
 step 2.
-  1.[]Add like to picture
-  2.[]As 'click' event, increase the number of likes
+  1.[√]Add like to picture
+  2.[√]As 'click' event, increase the number of likes
 */
 let fetchImage;
 let imageData;
@@ -56,6 +56,12 @@ function addLikes(btn) {
   let span = btn.parentNode.querySelector("#likes");
   btn.dataset.imageId = imageData.id;
 
-  span.innerText = 0;
-  span.innerText += 1;
+  if (span.innerText === "Likes Go Here") {
+    return span.innerText = 0;
+  } else {
+    let likes = parseInt(span.innerText);
+    likes++;
+    return span.innerText = likes;
+  }
+
 }
