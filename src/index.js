@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
 
-  let imageId = 4861
+  let imageId = "4861"
 
   const imageURL = `https://randopic.herokuapp.com/images/${imageId}`
 
@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 function getImage() {
-  fetch(`https://randopic.herokuapp.com/images/${imageId}`)
+  fetch(`https://randopic.herokuapp.com/images/4861`)
   .then( response => response.json())
-  .then( object => () => {
+  .then( object => {
     renderImage(object)
   })
 }
@@ -26,9 +26,9 @@ function renderImage(object) {
   const imgCard = document.getElementById("image_card")
   imgCard.innerHTML = `
       <img src=${object.url} id="image" data-id=""/>
-      <h4 id="name">Title of image goes here</h4>
+      <h4 id="name">${object.name}</h4>
         <span>Likes:
-          <span id="likes">Likes Go Here</span>
+          <span id="likes">${object.like_count}</span>
         </span>
       <button id="like_button">Like</button>
         <form id="comment_form">
@@ -36,7 +36,7 @@ function renderImage(object) {
           <input type="submit" value="Submit"/>
         </form>
       <ul id="comments">
-        <!-- <li> for each comment goes here -->
+        <li> ${object.comments} </li>
       </ul>
   `
 
