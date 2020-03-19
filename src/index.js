@@ -10,3 +10,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const commentsURL = `https://randopic.herokuapp.com/comments/`
 
 })
+
+//
