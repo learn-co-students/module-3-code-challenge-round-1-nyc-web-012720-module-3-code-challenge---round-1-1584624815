@@ -24,6 +24,20 @@ document.addEventListener('DOMContentLoaded', () => {
   let form = document.querySelector("form#comment_form")
   form.addEventListener("submit", function(event){
     event.preventDefault()
+
+    fetch(commentsURL, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "image_id": `${imageId}`,
+        "content": `${event.target.comment.value}`
+      })
+    })
+    .then(resp => resp.json())
+    .then(comment => renderComment(comment))
   }) // submit closer
 
   function addLike(button){
@@ -40,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          "image_id": id
+          image_id: `${imageId}`
         })
       })
   }
@@ -77,5 +91,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       ul.append(li)
     })
+  }
+
+  function renderComment(comment){
+    let ul = document.getElementById("comments")
+      let li = document.createElement("li")
+      li.innerText = comment.content
+
+      ul.append(li)
   }
 })
