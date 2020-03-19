@@ -13,6 +13,12 @@ step 2.
   2.[√]Clear out input text that typed in.
   step 5.
   1.[√]Send  comment to Backend by fetching. Use POST method
+
+  ##BONUS
+  set 6.
+  1.[√]Create a new 'delete'button rigtht next to comment.
+  2.[√]Hitting 'delete' remove comment.
+  3.[√]Send 'Delete' to backend.
 */
 let fetchImage;
 let imageData;
@@ -42,6 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (event.target.id === "like_button") {
       addLikes(event.target);
       updateLikes(likeURL);
+    } else if (event.target.className === "btn delete") {
+      event.target.parentElement.remove();
+      deleteComment(event.target, commentsURL);
     }
   });
 
@@ -69,7 +78,9 @@ function renderImage(image) {
   if (image.comments.length > 0) {
     image.comments.forEach(function (comment) {
       ul.innerHTML += `
-      <li>${comment.content}</li>
+      <li>${comment.content}
+      <button class="btn delete" data-delete-id=${comment.id}>delete</button>
+      </li>
       `;
     });
   }
@@ -129,3 +140,17 @@ const updateComments = function (submit, commentsURL) {
     });
 
 };
+
+function deleteComment(btn, commentsURL) {
+  fetch(`${commentsURL}/${btn.dataset.deleteId}`, {
+    method: "DELETE"
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+    });
+}
+
+
