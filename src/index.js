@@ -8,5 +8,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const likeURL = `https://randopic.herokuapp.com/likes/`
 
   const commentsURL = `https://randopic.herokuapp.com/comments/`
-
+  // start
 })
