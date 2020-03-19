@@ -1,4 +1,4 @@
-const immUrl = 'https://randopic.herokuapp.com/images/4862'
+
 const container = document.getElementsByClassName('container')
 
 
@@ -13,40 +13,55 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const commentsURL = `https://randopic.herokuapp.com/comments/`
 
+  getImg()
 
   function getImg(obj){
-    fetch(imgUrl)
-    .then(resp = resp.json())
+    fetch(imageURL)
+    .then(resp => resp.json())
     .then(obj => renderImg(obj))
   }
 
   function renderImg(obj){
-    let div = document.createElement("div")
-    div.setAttribute("id", "image_card")
-    div.setAttribute("class", "row")
+    let imgTag = document.getElementById('image')
+    imgTag.src = 'http://blog.flatironschool.com/wp-content/uploads/2016/01/20141110-Flatiron-School-29-352x200.jpg'
+
+    let h4 = document.getElementById('name')
+    h4.innerText = obj.name
+
+    let button = document.getElementById('like_button')
+    button.innerText = obj.like_count
+
+    let ul = document.getElementById('comments')
+    li = document.createElement('li')
+    li.innerText = obj.content
+    ul.appendChild(li)
+
+    // let div = document.createElement("div")
+    // div.setAttribute("id", "image_card")
+    // div.setAttribute("class", "row")
   
-    div.innerHTML = `
-    <div class="card col-md-4"></div>
-    <div id="image_card" class="card col-md-4">
-        <img src=${"http://blog.flatironschool.com/wp-content/uploads/2016/01/20141110-Flatiron-School-29-352x200.jpg"} id="image" data-id=""/>
-        <h4 id="name">${img.name}</h4>
-        <span>Likes:
-          <span id="likes">${img.like_count}</span>
-        </span>
-        <button id="like_button">Like</button>
-        <form id="comment_form">
-          <input id="${img_content}" type="text" name="comment" placeholder="Add Comment"/>
-          <input type="submit" value="Submit"/>
-        </form>
-        <ul id="comments">
-             <!-- <li> for each comment goes here -->
-        </ul>
-      </div>
-    <div class="card col-md-4"></div>
-    `
-  
-    container.appendChild(div)
-    }
+    // div.innerHTML = `
+    // <div class="card col-md-4"></div>
+    // <div id="image_card" class="card col-md-4">
+    //     <img src= ${obj.url} id="image" data-id=""/>
+    //     <h4 id="name">${obj.name}</h4>
+    //     <span>Likes:
+    //       <span id="likes"> ${obj.like_count} </span>
+    //     </span>
+    //     <button id="like_button">Like</button>
+    //     <form id="comment_form">
+    //       <input id=" ${obj.content} " type="text" name="comment" placeholder="Add Comment"/>
+    //       <input type="submit" value="Submit"/>
+    //     </form>
+    //     <ul id="comments">
+    //          <!-- <li> for each comment goes here -->
+    //     </ul>
+    //   </div>
+    // <div class="card col-md-4"></div>
+    // `
+    // console.log(container)
+    // container.appendChild(div)
+  }
   
 })
 
