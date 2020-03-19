@@ -53,4 +53,18 @@ function addImage(image){
   `
 }
 
+// add like
+document.addEventListener('click', function(event){
+  if (event.target.innertext === "Like"){
+    increaseLike(event.target)
+  }
+})
+
+function increaseLike(button){
+  let parentNode = button.parentNode.getElementById('likes');
+  let likesValue = parseInt(parentNode.innertext)
+  likesValue++
+  parentNode.innertext = likesValue
+}
+
 })
