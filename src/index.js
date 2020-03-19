@@ -29,7 +29,7 @@ function renderImage(image) {
     <span>Likes:
       <span id="likes">${image.like_count}</span>
     </span>
-    <button id="like_button">Like</button>
+    <button class="like_button">Like</button>
     <form id="comment_form">
       <input id="comment_input" type="text" name="comment" placeholder="Add Comment"/>
       <input type="submit" value="Submit"/>
@@ -47,9 +47,22 @@ function renderImage(image) {
 }
 
 function updateLikes() {
-  const likeButton = document.getElementById("like_button")
-  likeButton.addEventListener("click", function (event) {
-    const span = document.getElementById("likes")
-    console.log("Jeff")
+  document.addEventListener("click", function (event) {
+    if (event.target.className === "like_button") {
+      const span = document.getElementById("likes")
+      span.innerText = `${++span.innerText}`
+
+      fetch('https://randopic.herokuapp.com/likes', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          image_id: 4874
+        })
+      }
+      )
+    }
   })
 }
