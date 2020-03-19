@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
 
-  let imageId = 4873
+  imageId = 4873
 
   imageURL = `https://randopic.herokuapp.com/images/${imageId}`
 
@@ -72,8 +72,22 @@ const addCommentListener = () => {
   const commentForm = document.getElementById("comment_form")
   commentForm.addEventListener("submit", event => {
     event.preventDefault()
-    console.log(event.target.comment.value)
-    renderNewComment(event.target.comment.value)
+    let content = event.target.comment.value
+    renderNewComment(content)
+    // run a fetch POST request
+    const commentObj = {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        image_id: imageId,
+        content: content
+      })
+    }
+
+    fetch(commentsURL, commentObj)
     commentForm.reset()
   })
 }
