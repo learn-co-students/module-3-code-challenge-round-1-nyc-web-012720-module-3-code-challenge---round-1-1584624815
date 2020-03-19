@@ -15,10 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(event.target)
     if (event.target.id === "like_button"){
       addLike(event.target)
-
     }
-
-
+    // if (event.target.id === "delete")
+    //   delete(event.target)
 
   }) // click closer
   let form = document.querySelector("form#comment_form")
@@ -84,19 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   function renderComments(image){
-    image.comments.forEach(comment => {
-      let ul = document.getElementById("comments")
-      let li = document.createElement("li")
-      li.innerText = comment.content
-
-      ul.append(li)
-    })
+    image.comments.forEach(comment => renderComment(comment)
+    )
   }
 
   function renderComment(comment){
     let ul = document.getElementById("comments")
       let li = document.createElement("li")
       li.innerText = comment.content
+
+      // let button = document.createElement("button")
+      // button.id = "delete"
+      // button.innerText = "Delete"
+      // li.append(button)
 
       ul.append(li)
   }
