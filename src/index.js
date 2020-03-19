@@ -10,9 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
   commentsURL = `https://randopic.herokuapp.com/comments/`
 
   likesCounter = document.getElementById("likes")
+  commentsUl = document.getElementById("comments")
 
   fetchAndRenderImageData()
   addLikesListener()
+  addCommentListener()
 
 })
 
@@ -31,16 +33,29 @@ const renderImage = (imageData) => {
   imageUrlTag.src = imageData.url
   imageH4.innerText = imageData.name
   likesCounter.innerText = imageData.like_count
+  renderComments(imageData)
+}
+
+const renderComments = (imageData) => {
+  imageData.comments.forEach(comment => {
+    // li.dataset.id = comment.id
+    renderNewComment(comment.content)
+  })
+}
+
+const renderNewComment = (comment) => {
+  const li = document.createElement('li')
+  li.innerText = comment
+  commentsUl.append(li)
 }
 
 const addLikesListener = () => {
   const likeButton = document.getElementById("like_button")
-  likeButton.addEventListener("click", (event) => {
-    let elementId = event.target.parentNode.dataset.id
-    console.log(elementId)
+  likeButton.addEventListener("click", (event) => {    
     let numberOfLikes = likesCounter.innerText
     likesCounter.innerText = ++numberOfLikes
-    // make a POST request
+    
+    let elementId = event.target.parentNode.dataset.id
     const postObj = {
       method: "POST",
       headers: {
@@ -49,17 +64,27 @@ const addLikesListener = () => {
       },
       body: JSON.stringify({image_id: elementId})
     }
-    fetch('https://randopic.herokuapp.com/likes', postObj)
+    fetch(likeURL, postObj)
+  })
+}
+
+const addCommentListener = () => {
+  const commentForm = document.getElementById("comment_form")
+  commentForm.addEventListener("submit", event => {
+    event.preventDefault()
+    console.log(event.target.comment.value)
+    renderNewComment(event.target.comment.value)
+    commentForm.reset()
   })
 }
 
 // - As a user, when the page loads, I should see:
   // - √an image
-  // - any comments that image has
+  // - √any comments that image has
   // - √the number of likes that image has
 
-  // - As a user, I can click a button to like an image. 
-  // When I click, the number of likes the image has should increase by one without the page refreshing.
+  // - √As a user, I can click a button to like an image. 
+  // √When I click, the number of likes the image has should increase by one without the page refreshing.
 
   // - As a user, I can enter text in an input field, and submit the form that the input is in. 
   // When I do, the app should add comment to the image without the page refreshing. 
