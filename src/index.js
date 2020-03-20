@@ -8,16 +8,15 @@ console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
   const likeURL = `https://randopic.herokuapp.com/likes/`
 
   const commentsURL = `https://randopic.herokuapp.com/comments/`
-  // start
+
+  // fetch all images
   document.getElementById('comment_input').value=null
   let body = document.getElementsByTagName('body')
-  
   let name = document.getElementById("name")
   let ul = document.getElementById('comments')
 
    fetchImages()
 
-    // fetch all images
     function fetchImages(){
       fetch(imageURL)
       .then(res => res.json())
@@ -47,11 +46,10 @@ console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
       ul.appendChild(li)
     }
 
+    // ***************** increase like
     document.addEventListener('click', function(event){
       if (event.target.innerText === "Like"){
-        // add like
         increaseLike()
-        updateLikeDb()
       }
     })
     
@@ -59,7 +57,6 @@ console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
       let likesValue = parseInt(likes.innerText)
       likesValue++
       likes.innerText = likesValue
-
       let id = document.getElementById('image').dataset.beef
       updateLikeDb(likesValue, id)
     }
@@ -75,9 +72,9 @@ console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
       })
       .then(res => res.json())
       .then(console.log)
-      
     }
 
+    // ********************* add comments
     document.addEventListener('submit', function(event){
       event.preventDefault()
       console.log('submit was clicked')
@@ -91,6 +88,7 @@ console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
       let newComment = { content: comment, image_id: image_id }
       createComment(newComment, ul)
       let id = document.getElementById('image').dataset.beef
+      
       addCommentToDb(comment, id )
       document.getElementById('comment_input').value=null
     }
@@ -105,11 +103,5 @@ console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
       })
       .then(res => res.json())
       .then(console.log)
-
     }
-
-
-    
-
-
 })
