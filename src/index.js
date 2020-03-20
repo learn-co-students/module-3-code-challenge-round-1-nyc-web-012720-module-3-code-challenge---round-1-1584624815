@@ -74,11 +74,12 @@ console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
       .then(console.log)
     }
 
-    // ********************* add comments
+    // ******************** add comments
     document.addEventListener('submit', function(event){
       event.preventDefault()
       console.log('submit was clicked')
-      addCommentToBrowser()
+      addCommentToBrowser()  
+    
     
     })
 
