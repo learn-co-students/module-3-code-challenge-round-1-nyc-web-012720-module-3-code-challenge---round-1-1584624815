@@ -10,7 +10,7 @@ console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
   const commentsURL = `https://randopic.herokuapp.com/comments/`
 
   // fetch all images
-  document.getElementById('comment_input').value=null
+  // document.getElementById('comment_input').value=null
   let body = document.getElementsByTagName('body')
   let name = document.getElementById("name")
   let ul = document.getElementById('comments')
@@ -40,9 +40,7 @@ console.log('%c DOM Content Loaded and Parsed!', 'color: magenta')
 
     function createComment(comment, ul){
       let li = document.createElement('li')
-      li.innerHTML = `<h4>content: ${comment.content}</h4> 
-                      <h4>image_id: ${comment.image_id}</h4>` 
-      // ${comment.reated_at} ${comment.updated_at}
+      li.innerHTML = `<h4>content: ${comment.content}</h4>`
       ul.appendChild(li)
     }
 
